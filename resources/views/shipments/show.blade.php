@@ -14,3 +14,5 @@
         </li>
     @endforeach
 </ul>
+
+<button onclick="window.history.back();">Back</button>
