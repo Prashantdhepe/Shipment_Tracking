@@ -29,7 +29,7 @@ Shipment Tracking Assessment – A web application to manage and track shipments
 | --------- | --------------- | -------- |
 | Backend   | PHP             | 8.2      |
 | Framework | Laravel         | 12       |
-| Database  | MySQL           | 8.0+     |
+| Database  | MySQL           | 10.4     |
 | ORM       | Eloquent        | Built-in |
 | SSR       | Blade Templates | Built-in |
 
