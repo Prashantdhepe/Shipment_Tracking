@@ -18,6 +18,9 @@ Route::get('dashboard', function () {
 
 require __DIR__.'/settings.php';
 
-Route::get('/shipments', [ShipmentController::class, 'index']);
-Route::get('/shipments/{shipment}', [ShipmentController::class, 'show']);
+Route::get('/shipments', [ShipmentController::class, 'index'])
+    ->name('shipments.index');
+
+Route::get('/shipments/{shipment}', [ShipmentController::class, 'show'])
+    ->name('shipments.show');
 

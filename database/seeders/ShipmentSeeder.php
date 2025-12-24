@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Shipment;
 use App\Models\StatusLog;
 use Faker\Factory as Faker;
+use Carbon\Carbon;
 
 class ShipmentSeeder extends Seeder
 {
@@ -13,30 +14,66 @@ class ShipmentSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $statuses = ['Pending', 'In Transit', 'Delivered'];
         $locations = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami'];
 
         for ($i = 0; $i < 100; $i++) {
-            // Create Shipment
-            $shipment = Shipment::create([
-                'tracking_number' => strtoupper($faker->bothify('??#####')),
-                'sender_name' => $faker->name(),
-                'sender_address' => $faker->address(),
-                'receiver_name' => $faker->name(),
-                'receiver_address' => $faker->address(),
-                'status' => $faker->randomElement($statuses),
+
+
+            $finalStatus = $faker->randomElement([
+                'Pending',
+                'In Transit',
+                'Delivered'
             ]);
 
-            // Create 2-5 Status Logs per shipment
-            $statusCount = rand(2, 5);
-            $lastTime = now()->subDays(rand(1, 10));
+            $baseDate = Carbon::now()->subDays(rand(3, 10));
 
-            for ($j = 0; $j < $statusCount; $j++) {
+            $pendingAt = (clone $baseDate)->setTime(
+                            rand(0, 5),       
+                            rand(0, 59)       
+                        );
+
+            $inTransitAt = (clone $pendingAt)->addHours(rand(8, 10));
+
+            $deliveredAt = (clone $inTransitAt)
+                            ->addDay()
+                            ->setTime(
+                                rand(1, 6),   
+                                rand(0, 59)
+                            );
+
+            $shipment = Shipment::create([
+                'tracking_number'   => strtoupper($faker->bothify('??#####')),
+                'sender_name'       => $faker->name(),
+                'sender_address'    => $faker->address(),
+                'receiver_name'     => $faker->name(),
+                'receiver_address'  => $faker->address(),
+                'destination_city'  => $faker->city(),
+                'status'            => $finalStatus,
+                'created_at'        => $pendingAt,
+            ]);
+
+            StatusLog::create([
+                'shipment_id' => $shipment->id,
+                'status'      => 'Pending',
+                'location'    => $faker->randomElement($locations),
+                'created_at'  => $pendingAt,
+            ]);
+
+            if (in_array($finalStatus, ['In Transit', 'Delivered'])) {
                 StatusLog::create([
                     'shipment_id' => $shipment->id,
-                    'status' => $faker->randomElement($statuses),
-                    'location' => $faker->randomElement($locations),
-                    'created_at' => $lastTime->addHours(rand(2, 24)),
+                    'status'      => 'In Transit',
+                    'location'    => $faker->randomElement($locations),
+                    'created_at'  => $inTransitAt,
+                ]);
+            }
+
+            if ($finalStatus === 'Delivered') {
+                StatusLog::create([
+                    'shipment_id' => $shipment->id,
+                    'status'      => 'Delivered',
+                    'location'    => $faker->randomElement($locations),
+                    'created_at'  => $deliveredAt,
                 ]);
             }
         }

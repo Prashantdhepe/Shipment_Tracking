@@ -85,6 +85,15 @@ php artisan db:seed --class=ShipmentSeeder
 php artisan serve
 ```
 
+## Installing Frontend Dependencies
+
+Run the following command from the Laravel project root directory  
+(the folder containing `package.json`):
+
+```bash
+npm install
+npm run dev
+
 ---
 
 ## Access the Application
@@ -97,24 +106,27 @@ php artisan serve
 ## Directory Structure
 
 ```
+
 Shipment Tracking
 |──API
-    ├── app/Models/
-    │   ├── Shipment.php
-    │   └── StatusLog.php
-    ├── app/Http/Controllers/
-    │   └── ShipmentController.php
-    ├── database/
-    │   ├── migrations/
-    │   └── seeders/
-    ├── resources/views/shipments/
-    │   ├── index.blade.php
-    │   └── show.blade.php
-    ├── routes/web.php
-    └── README.md
+├── app/Models/
+│ ├── Shipment.php
+│ └── StatusLog.php
+├── app/Http/Controllers/
+│ └── ShipmentController.php
+├── database/
+│ ├── migrations/
+│ └── seeders/
+├── resources/views/shipments/
+│ ├── index.blade.php
+│ └── show.blade.php
+├── routes/web.php
+└── README.md
+
 ```
 
 ## Author
 
 - Developed by **[Prashant Dhepe]**
 - GitHub: [https://github.com/Prashantdhepe]
+```

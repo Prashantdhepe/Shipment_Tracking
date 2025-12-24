@@ -12,8 +12,10 @@ class Shipment extends Model
         'sender_address',
         'receiver_name',
         'receiver_address',
-        'status'
+        'destination_city',
+        'status',
     ];
+
 
     public function statusLogs()
     {

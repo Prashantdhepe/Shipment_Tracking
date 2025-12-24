@@ -15,8 +15,10 @@ class ShipmentController extends Controller
             $query->where('tracking_number', 'like', '%' . $request->search . '%');
         }
 
-        $shipments = $query->orderBy('created_at', 'desc')
-                        ->paginate(10);
+        $shipments = $query ->orderBy('created_at', 'desc')
+                    ->paginate(10)
+                    ->withQueryString();
+
 
         return view('shipments.index', compact('shipments'));
     }
