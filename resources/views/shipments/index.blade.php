@@ -24,6 +24,18 @@
                 <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
                     Search
                 </button>
+                <select type="dropdown" name="status" value="{{ request('status') }}" placeholder="Search Status"
+                    class="border border-gray-300 rounded px-4 py-2 w-72 focus:outline-none focus:ring focus:border-blue-400"
+                    onchange="this.form.submit()">
+                    <option value="" disabled selected>Filter by Status</option>
+                    <option name="status" value="Pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
+                        Pending</option>
+                    <option name="status" value="In Transit" {{ request('status') == 'In Transit' ? 'selected' : '' }}>
+                        In Transit</option>
+                    <option name="status" value="Delivered" {{ request('status') == 'Delivered' ? 'selected' : '' }}>
+                        Delivered</option>
+
+                </select>
             </form>
 
             <!-- Table -->

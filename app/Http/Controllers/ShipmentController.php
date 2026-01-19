@@ -14,6 +14,9 @@ class ShipmentController extends Controller
         if ($request->filled('search')) {
             $query->where('tracking_number', 'like', '%' . $request->search . '%');
         }
+        if($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
 
         $shipments = $query ->orderBy('created_at', 'desc')
                     ->paginate(10)
